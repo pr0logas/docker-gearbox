@@ -2,15 +2,15 @@
 
 case "${GEARBOX_CONTAINER_VERSION}" in
 	"3.3")
-		APKS="bash git rsync"
+		APKS="bash git rsync sudo"
 		;;
 
 	"3.4")
-		APKS="bash git rsync"
+		APKS="bash git rsync sudo"
 		;;
 
 	*)
-		APKS="bash git shadow rsync"
+		APKS="bash git shadow rsync sudo"
 		;;
 esac
 
