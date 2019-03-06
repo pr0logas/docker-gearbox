@@ -1,0 +1,15 @@
+{
+	"project": "gearbox",
+	"name": "gearbox-base",
+	"version": "3.3.0",
+	"majorversion": "3.3",
+	"latest": "1",
+	"class": "admin",
+	"network": "--network gearboxnet",
+	"ports": "-p 9970:9970",
+	"volumes": "",
+	"restart": "--restart no",
+	"args": "",
+	"env": "VERSION"
+}
+
