@@ -2,7 +2,7 @@
 # Standard top level Makefile used to build a Docker container for Gearbox - https://github.com/gearboxworks/gearbox/
 # 
 
-VERSIONS = $(sort $(dir $(wildcard ?.?/)))
+VERSIONS = $(sort $(dir $(wildcard */)))
 
 BASEDIR = $(shell pwd)
 
