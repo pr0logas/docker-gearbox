@@ -19,7 +19,7 @@ ENV https_proxy $GEARBOX_HTTP_PROXY
 
 COPY container.json /etc/container.json
 COPY files /
-RUN /bin/sh /build.sh && rm -f /build.sh
+RUN /bin/sh /build/build.sh
 
 WORKDIR /project
 EXPOSE 9970

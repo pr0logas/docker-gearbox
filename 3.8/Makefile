@@ -4,7 +4,7 @@
 
 
 # Determine whether we use "nodeJS" or "JQ".
-JSONCMD := $(shell jq -r '.project' ./container.json)
+JSONCMD := $(shell jq -r '.organization' ./container.json)
 ifneq ($(JSONCMD),)
 define GetFromPkg
 $(shell jq -r ".$(1)" ./container.json)
@@ -15,7 +15,7 @@ $(shell jq -Mc -r '' ./container.json)
 endef
 
 else
-JSONCMD := $(shell node -p "require('./container.json').project")
+JSONCMD := $(shell node -p "require('./container.json').organization")
 ifneq ($(JSONCMD),)
 define GetFromPkg
 $(shell node -p "require('./container.json').$(1)")
@@ -32,7 +32,7 @@ endif
 endif
 
 # Set global variables from container file.
-PROJECT		:= $(call GetFromPkg,project)
+ORGANIZATION	:= $(call GetFromPkg,organization)
 NAME		:= $(call GetFromPkg,name)
 VERSION		:= $(call GetFromPkg,version)
 MAJORVERSION	:= $(call GetFromPkg,majorversion)
@@ -52,7 +52,7 @@ BUILD_ARGS	:= --squash
 NAME		:= $(NAME)
 endif
 
-IMAGE_NAME	?= $(PROJECT)/$(NAME)
+IMAGE_NAME	?= $(ORGANIZATION)/$(NAME)
 CONTAINER_NAME	?= $(NAME)-$(VERSION)
 CONTAINER_JSON	?= '$(call rawJSON)'
 
@@ -101,10 +101,10 @@ readme:
 
 ################################################################################
 build: $(DOCKERFILE)
-ifeq ($(PROJECT),)
+ifeq ($(ORGANIZATION),)
 	@echo "Gearbox: ERROR - You need to install JQ or NodeJS."
 else
-	script -r -t 10 logs/$(LOGFILE) docker build -t $(IMAGE_NAME):$(VERSION) --label container.json='$(call rawJSON)' --label container.project="$(PROJECT)" --label container.name="$(NAME)" --label container.version="$(VERSION)" --label container.majorversion="$(MAJORVERSION)" --label container.latest="$(LATEST)" --label container.class="$(CLASS)" --label container.network="$(NETWORK)" --label container.ports="$(PORTS)" --label container.volumes="$(VOLUMES)" --label container.restart="$(RESTART)" --label container.args="$(ARGS)" --label container.env="$(ENV)" --build-arg $(ENV)="$(VERSION)" $(BUILD_ARGS) -f $(DOCKERFILE) .
+	script -r -t 10 logs/$(LOGFILE) docker build -t $(IMAGE_NAME):$(VERSION) --label container.json='$(call rawJSON)' --label container.organization="$(ORGANIZATION)" --label container.name="$(NAME)" --label container.version="$(VERSION)" --label container.majorversion="$(MAJORVERSION)" --label container.latest="$(LATEST)" --label container.class="$(CLASS)" --label container.network="$(NETWORK)" --label container.ports="$(PORTS)" --label container.volumes="$(VOLUMES)" --label container.restart="$(RESTART)" --label container.args="$(ARGS)" --label container.env="$(ENV)" --build-arg $(ENV)="$(VERSION)" $(BUILD_ARGS) -f $(DOCKERFILE) .
 ifneq ($(MAJORVERSION),)
 	docker tag $(IMAGE_NAME):$(VERSION) $(IMAGE_NAME):$(MAJORVERSION)
 endif
@@ -114,7 +114,7 @@ endif
 
 ################################################################################
 push:
-ifeq ($(PROJECT),)
+ifeq ($(ORGANIZATION),)
 	@echo "Gearbox: ERROR - You need to install JQ or NodeJS."
 else
 	docker push $(IMAGE_NAME):$(VERSION)
@@ -126,7 +126,7 @@ endif
 
 ################################################################################
 release: build
-ifeq ($(PROJECT),)
+ifeq ($(ORGANIZATION),)
 	@echo "Gearbox: ERROR - You need to install JQ or NodeJS."
 else
 	@make clean-base
@@ -139,7 +139,7 @@ endif
 
 ################################################################################
 clean:
-ifeq ($(PROJECT),)
+ifeq ($(ORGANIZATION),)
 	@echo "Gearbox: ERROR - You need to install JQ or NodeJS."
 else
 	-docker image rm -f $(IMAGE_NAME):$(VERSION)
@@ -152,7 +152,7 @@ endif
 
 ################################################################################
 list:
-ifeq ($(PROJECT),)
+ifeq ($(ORGANIZATION),)
 	@echo "Gearbox: ERROR - You need to install JQ or NodeJS."
 else
 	-docker image ls $(IMAGE_NAME):$(VERSION)
@@ -164,7 +164,7 @@ endif
 
 ################################################################################
 inspect:
-ifeq ($(PROJECT),)
+ifeq ($(ORGANIZATION),)
 	@echo "Gearbox: ERROR - You need to install JQ or NodeJS."
 else
 	docker image inspect $(IMAGE_NAME):$(VERSION)
@@ -173,7 +173,7 @@ endif
 
 ################################################################################
 test:
-ifeq ($(PROJECT),)
+ifeq ($(ORGANIZATION),)
 	@echo "Gearbox: ERROR - You need to install JQ or NodeJS."
 else
 	make -k stop; make -k rm
@@ -185,7 +185,7 @@ endif
 # Container related commands.
 
 create:
-ifeq ($(PROJECT),)
+ifeq ($(ORGANIZATION),)
 	@echo "Gearbox: ERROR - You need to install JQ or NodeJS."
 else
 	docker create   --name $(CONTAINER_NAME) $(RESTART)  $(NETWORK) $(PORTS) $(ARGS) $(VOLUMES) $(IMAGE_NAME):$(VERSION)
@@ -194,7 +194,7 @@ endif
 
 ################################################################################
 shell:
-ifeq ($(PROJECT),)
+ifeq ($(ORGANIZATION),)
 	@echo "Gearbox: ERROR - You need to install JQ or NodeJS."
 else
 	docker run --rm --name $(CONTAINER_NAME)-shell -i -t $(NETWORK) $(PORTS) $(ARGS) $(VOLUMES) $(IMAGE_NAME):$(VERSION) /bin/bash -l
@@ -203,7 +203,7 @@ endif
 
 ################################################################################
 run:
-ifeq ($(PROJECT),)
+ifeq ($(ORGANIZATION),)
 	@echo "Gearbox: ERROR - You need to install JQ or NodeJS."
 else
 	docker run --rm --name $(CONTAINER_NAME)             $(NETWORK) $(PORTS) $(ARGS) $(VOLUMES) $(IMAGE_NAME):$(VERSION)
@@ -212,7 +212,7 @@ endif
 
 ################################################################################
 start:
-ifeq ($(PROJECT),)
+ifeq ($(ORGANIZATION),)
 	@echo "Gearbox: ERROR - You need to install JQ or NodeJS."
 else
 	docker start $(CONTAINER_NAME)
@@ -221,7 +221,7 @@ endif
 
 ################################################################################
 stop:
-ifeq ($(PROJECT),)
+ifeq ($(ORGANIZATION),)
 	@echo "Gearbox: ERROR - You need to install JQ or NodeJS."
 else
 	docker stop $(CONTAINER_NAME)
@@ -230,7 +230,7 @@ endif
 
 ################################################################################
 rm:
-ifeq ($(PROJECT),)
+ifeq ($(ORGANIZATION),)
 	@echo "Gearbox: ERROR - You need to install JQ or NodeJS."
 else
 	docker container rm -f $(CONTAINER_NAME)

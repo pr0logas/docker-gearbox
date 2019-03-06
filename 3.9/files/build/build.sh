@@ -9,7 +9,7 @@ set | grep proxy
 env | grep proxy
 
 apk update && \
-apk add --no-cache bash shadow && \
+apk add --no-cache bash git shadow && \
 groupadd -g 1000 gearbox && \
 mkdir /var/mail && \
 useradd -d /home/gearbox -c "Gearbox user" -u 1000 -g 1000 -N -s /bin/bash gearbox && \
