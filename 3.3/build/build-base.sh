@@ -5,7 +5,7 @@ case "${GEARBOX_CONTAINER_VERSION}" in
 		APKS="bash git rsync"
 		;;
 
-	"3.3")
+	"3.4")
 		APKS="bash git rsync"
 		;;
 
@@ -13,7 +13,7 @@ case "${GEARBOX_CONTAINER_VERSION}" in
 		APKS="bash git shadow rsync"
 		;;
 esac
-exit
+
 apk update && apk add --no-cache ${APKS}
 
 GROUP=$(grep ^gearbox /etc/group)
@@ -49,7 +49,7 @@ then
 	fi
 fi
 
-if [ "${GEARBOX_CONTAINER_NAME}" == "gearbox-base" ]
+if [ -d "/build/rootfs/" ]
 then
 	echo "# Setting gearbox rootfs."
 	chown -fhR root:root /build/rootfs

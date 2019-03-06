@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo ""
-echo "# You have entered the ${$GEARBOX_CONTAINER_NAME} Docker container."
+echo "# You have entered the ${GEARBOX_CONTAINER_NAME} Docker container."
 echo "# All changes made here outside of /project and /projects will not be permanent."
 echo ""
 
