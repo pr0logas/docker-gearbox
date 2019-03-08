@@ -1,60 +1,108 @@
 #!/bin/sh
 
+test -f /build/include-me.sh && . /build/include-me.sh
+
+c_ok "Started."
+
+c_ok "Update packages."
 case "${GEARBOX_CONTAINER_VERSION}" in
-	"alpine-3.3")
-		APKS="bash git rsync sudo"
+	"alpine-"*)
+		case "${GEARBOX_CONTAINER_VERSION}" in
+			"alpine-3.3")
+				APKS="bash git rsync sudo ncurses"
+				;;
+
+			"alpine-3.4")
+				APKS="bash git rsync sudo ncurses"
+				;;
+
+			*)
+				APKS="bash git shadow rsync sudo ncurses"
+				;;
+		esac
+
+		apk update; checkExit
+		apk add --no-cache ${APKS}; checkExit
 		;;
 
-	"alpine-3.4")
-		APKS="bash git rsync sudo"
+	"debian-"*)
+		DEBS="bash git rsync sudo wget"
+		apt-get update; checkExit
+		apt-get install -y --no-install-recommends ${DEBS}; checkExit
+		find /var/lib/apt/lists -type f -delete; checkExit
 		;;
 
 	*)
-		APKS="bash git shadow rsync sudo"
+		c_err "Unknown base O/S."
+		exit 1
 		;;
 esac
 
-apk update && apk add --no-cache ${APKS}
 
-GROUP=$(grep ^gearbox /etc/group)
-if [ "${GROUP}" == "" ]
+GROUP="$(grep ^gearbox /etc/group)"
+if [ -z "${GROUP}" ]
 then
-	echo "# Adding gearbox group."
+	c_ok "Adding gearbox group."
 	GROUPADD="$(which groupadd)"
-	if [ "${GROUPADD}" == "" ]
+	if [ -z "${GROUPADD}" ]
 	then
 		echo 'gearbox:x:1000:' >> /etc/group
 	else
-		groupadd -g 1000 gearbox
+		groupadd -g 1000 gearbox; checkExit
 	fi
 fi
 
+
 if [ ! -d /var/mail ]
 then
-	echo "# Creating /var/mail."
+	c_ok "Creating /var/mail."
 	mkdir /var/mail
 fi
 
+
 PASSWD=$(grep ^gearbox /etc/passwd)
-if [ "${PASSWD}" == "" ]
+if [ -z "${PASSWD}" ]
 then
-	echo "# Adding gearbox user."
+	c_ok "Adding gearbox user."
 	GROUPADD="$(which groupadd)"
-	if [ "${GROUPADD}" == "" ]
+	if [ -z "${GROUPADD}" ]
 	then
 		echo 'gearbox:x:1000:1000:Gearbox user:/home/gearbox:/bin/bash' >> /etc/passwd
 		echo 'gearbox:$6$XdlAWysgxyUyxjAV$ivrS09OkFINgCUdHjUQYG68FqW/Dkyia1iB1AN2RpgqdmgGP4DtYOAj47C5xCX8pD5iOub0q6M66zBn2bX27m1:17927:0:99999:7:::' >> /etc/shadow
 	else
-		useradd -d /home/gearbox -c "Gearbox user" -u 1000 -g 1000 -N -s /bin/bash gearbox
+		useradd -d /home/gearbox -c "Gearbox user" -u 1000 -g 1000 -N -s /bin/bash gearbox; checkExit
 	fi
 fi
 
+
 if [ -d "/build/rootfs/" ]
 then
-	echo "# Setting gearbox rootfs."
-	chown -fhR root:root /build/rootfs
-	chown -fhR gearbox:gearbox /build/rootfs/project /build/rootfs/projects /build/rootfs/home/gearbox
-	rsync -HvaxP /build/rootfs/ /
+	c_ok "Copying /build/rootfs/ to /."
+	chown -fhR root:root /build/rootfs; checkExit
+	chown -fhR gearbox:gearbox /build/rootfs/project /build/rootfs/projects /build/rootfs/home/gearbox; checkExit
+	rsync -HvaxP /build/rootfs/ /; checkExit
+else
+	c_err "Error: /tmp/rootfs does not exist."
+	exit 1
 fi
 
-echo "# Finished."
+
+#c_ok "Installing MailHog client."
+#export GOPATH=/build/gocode
+#if [ ! -d "${GOPATH}" ]
+#then
+#	mkdir -p ${GOPATH}; checkExit
+#fi
+#go get github.com/mailhog/mhsendmail; checkExit
+#find ${GOPATH} | xargs ls -ld
+#du -sh ${GOPATH}
+#mv ${GOPATH}/bin/MailHog /usr/local/bin; checkExit
+#rm -rf ${GOPATH}
+
+
+c_ok "Cleaning up."
+find /usr/local/*bin -type f | xargs chmod 775
+
+
+c_ok "Finished."
+exit 0
