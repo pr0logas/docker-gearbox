@@ -5,9 +5,12 @@ test -f /build/include-me.sh && . /build/include-me.sh
 c_ok "Started."
 
 c_ok "Update packages."
-case "${GEARBOX_CONTAINER_VERSION}" in
+test -f /build/version-base.sh && . /build/version-base.sh
+
+
+case "${GEARBOX_BASE_VERSION}" in
 	"alpine-"*)
-		case "${GEARBOX_CONTAINER_VERSION}" in
+		case "${GEARBOX_BASE_VERSION}" in
 			"alpine-3.3")
 				APKS="bash git rsync sudo ncurses"
 				;;
