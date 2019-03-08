@@ -22,7 +22,7 @@ ENV https_proxy $GEARBOX_HTTP_PROXY
 COPY build /build
 COPY container.json /build/container.json
 
-RUN /bin/sh /build/build-base.sh
+RUN /bin/bash /build/build-base.sh
 
 WORKDIR /project
 EXPOSE 9970
