@@ -1,28 +1,28 @@
-![Gearbox 3.9](https://img.shields.io/badge/Gearbox-3.9-green.svg)
-![Gearbox 3.8](https://img.shields.io/badge/Gearbox-3.8-green.svg)
-![Gearbox 3.7](https://img.shields.io/badge/Gearbox-3.7-green.svg)
-![Gearbox 3.6](https://img.shields.io/badge/Gearbox-3.6-green.svg)
-![Gearbox 3.5](https://img.shields.io/badge/Gearbox-3.5-green.svg)
-![Gearbox 3.4](https://img.shields.io/badge/Gearbox-3.4-green.svg)
-![Gearbox 3.3](https://img.shields.io/badge/Gearbox-3.3-green.svg)
+![Gearbox alpine-3.9](https://img.shields.io/badge/Gearbox-alpine-3.9-green.svg)
+![Gearbox alpine-3.8](https://img.shields.io/badge/Gearbox-alpine-3.8-green.svg)
+![Gearbox alpine-3.7](https://img.shields.io/badge/Gearbox-alpine-3.7-green.svg)
+![Gearbox alpine-3.6](https://img.shields.io/badge/Gearbox-alpine-3.6-green.svg)
+![Gearbox alpine-3.5](https://img.shields.io/badge/Gearbox-alpine-3.5-green.svg)
+![Gearbox alpine-3.4](https://img.shields.io/badge/Gearbox-alpine-3.4-green.svg)
+![Gearbox alpine-3.3](https://img.shields.io/badge/Gearbox-alpine-3.3-green.svg)
 
 ![Gearbox](https://github.com/gearboxworks/gearbox.github.io/raw/master/Gearbox-100x.png)
 
 
 # Gearbox reference Docker Container for Gearbox
 This is the repository for the Gearbox reference Docker container implemented for [Gearbox](https://github.com/gearboxworks/gearbox).
-It currently provides versions 3.9 3.8 3.7 3.6 3.5 3.4 3.3
+It currently provides versions alpine-3.9 alpine-3.8 alpine-3.7 alpine-3.6 alpine-3.5 alpine-3.4 alpine-3.3 debian-stretch
 
 
 ## Supported tags and respective Dockerfiles
 
-`3.9` _([3.9/Dockerfile](https://github.com/gearboxworks/gearbox-docker/blob/master/3.9/Dockerfile))_
-`3.8`, `latest` _([3.8/Dockerfile](https://github.com/gearboxworks/gearbox-docker/blob/master/3.8/Dockerfile))_
-`3.7` _([3.7/Dockerfile](https://github.com/gearboxworks/gearbox-docker/blob/master/3.7/Dockerfile))_
-`3.6` _([3.6/Dockerfile](https://github.com/gearboxworks/gearbox-docker/blob/master/3.6/Dockerfile))_
-`3.5` _([3.5/Dockerfile](https://github.com/gearboxworks/gearbox-docker/blob/master/3.5/Dockerfile))_
-`3.4` _([3.4/Dockerfile](https://github.com/gearboxworks/gearbox-docker/blob/master/3.4/Dockerfile))_
-`3.3` _([3.3/Dockerfile](https://github.com/gearboxworks/gearbox-docker/blob/master/3.3/Dockerfile))_
+`alpine-3.9` _([alpine-3.9/Dockerfile](https://github.com/gearboxworks/gearbox-docker/blob/master/alpine-3.9/Dockerfile))_
+`alpine-3.8` _([alpine-3.8/Dockerfile](https://github.com/gearboxworks/gearbox-docker/blob/master/alpine-3.8/Dockerfile))_
+`alpine-3.7` _([alpine-3.7/Dockerfile](https://github.com/gearboxworks/gearbox-docker/blob/master/alpine-3.7/Dockerfile))_
+`alpine-3.6` _([alpine-3.6/Dockerfile](https://github.com/gearboxworks/gearbox-docker/blob/master/alpine-3.6/Dockerfile))_
+`alpine-3.5` _([alpine-3.5/Dockerfile](https://github.com/gearboxworks/gearbox-docker/blob/master/alpine-3.5/Dockerfile))_
+`alpine-3.4` _([alpine-3.4/Dockerfile](https://github.com/gearboxworks/gearbox-docker/blob/master/alpine-3.4/Dockerfile))_
+`alpine-3.3` _([alpine-3.3/Dockerfile](https://github.com/gearboxworks/gearbox-docker/blob/master/alpine-3.3/Dockerfile))_
 
 
 ## Using this container.
@@ -45,7 +45,7 @@ A simple `docker pull gearbox/gearbox` will pull down the latest version.
 ### Runtime from Docker Hub
 start - Spin up a Docker container with the correct runtime configs.
 
-`docker run -d --name gearbox-3.8 --restart unless-stopped --network gearboxnet gearbox/gearbox:3.8`
+`docker run -d --name gearbox-3.8 --restart unless-stopped --network gearboxnet gearbox/gearbox:alpine-3.8`
 
 stop - Stop a Docker container.
 
@@ -53,11 +53,11 @@ stop - Stop a Docker container.
 
 run - Run a Docker container in the foreground, (all STDOUT and STDERR will go to console). The Container be removed on termination.
 
-`docker run --rm --name gearbox-3.8 --network gearboxnet -p 9970:9970  gearbox/gearbox:3.8`
+`docker run --rm --name gearbox-3.8 --network gearboxnet -p 9970:9970  gearbox/gearbox:alpine-3.8`
 
 shell - Run a shell, (/bin/bash), within a Docker container.
 
-`docker run --rm --name gearbox-3.8 -i -t --network gearboxnet -p 9970:9970  gearbox/gearbox:3.8 /bin/bash`
+`docker run --rm --name gearbox-3.8 -i -t --network gearboxnet -p 9970:9970  gearbox/gearbox:alpine-3.8 /bin/bash`
 
 rm - Remove the Docker container.
 

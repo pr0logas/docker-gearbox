@@ -1,0 +1,15 @@
+{
+	"organization": "gearboxworks",
+	"name": "gearbox-base",
+	"version": "alpine-3.7.0",
+	"majorversion": "alpine-3.7",
+	"latest": "1",
+	"class": "admin",
+	"network": "--network gearboxnet",
+	"ports": "-p 9970:9970",
+	"volumes": "",
+	"restart": "--restart no",
+	"args": "",
+	"env": "VERSION"
+}
+
