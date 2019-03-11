@@ -1,8 +1,9 @@
 {
+	"state": "production",
 	"organization": "gearboxworks",
 	"name": "gearbox-base",
-	"version": "alpine-3.3.0",
-	"majorversion": "alpine-3.3",
+	"version": "alpine-3.7.0",
+	"majorversion": "alpine-3.7",
 	"latest": "1",
 	"class": "admin",
 	"network": "--network gearboxnet",

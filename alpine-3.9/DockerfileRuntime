@@ -21,7 +21,7 @@ ENV http_proxy $GEARBOX_HTTP_PROXY
 ENV https_proxy $GEARBOX_HTTP_PROXY
 
 COPY build /build
-COPY container.json /build/container.json
+COPY gearbox.json /build/gearbox.json
 
 RUN echo "GEARBOX_BASE_VERSION=$GEARBOX_CONTAINER_VERSION; export GEARBOX_BASE_VERSION" > /build/version-base.sh && /bin/sh /build/build-base.sh
 
